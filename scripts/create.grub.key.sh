@@ -31,7 +31,8 @@ read -p "Press [Enter] key to continue"
 #sudo sgdisk --zap-all ${DSK}
 
 sudo parted -s ${DSK} mklabel msdos
-sudo parted -s ${DSK} -a optimal unit MB -- mkpart primary 1 -1
+#about 50G
+sudo parted -s ${DSK} -a optimal unit MB -- mkpart primary 1 50000
 
 sleep 1
 
@@ -51,11 +52,15 @@ if ( grep -q ${DSK} /etc/mtab ); then
 	sudo chown -R `whoami` $tmpdir
 
 	#cp /usr/lib/syslinux/bios/memdisk $tmpdir/boot/grub/
-	cp /boot/extlinux/memdisk $tmpdir/boot/grub/
+	#cp /boot/extlinux/memdisk $tmpdir/boot/grub/
+ 	cp /usr/local/share/syslinux/memdisk $tmpdir/boot/grub/
 
-	pushd $tmpdir
-		curl -L https://github.com/Thermionix/multipass-usb/tarball/master | tar zx --strip 1
-	popd
+	#pushd $tmpdir
+	#	curl -L https://github.com/Thermionix/multipass-usb/tarball/master | tar zx --strip 1
+	#popd
+
+	mkdir -p $tmpdir/bootisos/
+	cp bootisos/* $tmpdir/bootisos/
 
 	echo "configfile /scripts/grub.head.cfg" > $tmpdir/boot/grub/grub.cfg
 

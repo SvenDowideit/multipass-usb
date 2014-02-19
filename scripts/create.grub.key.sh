@@ -55,11 +55,10 @@ if ( grep -q ${DSK} /etc/mtab ); then
 	#cp /boot/extlinux/memdisk $tmpdir/boot/grub/
  	cp /usr/local/share/syslinux/memdisk $tmpdir/boot/grub/
 
-	#pushd $tmpdir
-	#	curl -L https://github.com/Thermionix/multipass-usb/tarball/master | tar zx --strip 1
-	#popd
+	pushd $tmpdir
+		curl -L https://github.com/Thermionix/multipass-usb/tarball/master | tar zx --strip 1
+	popd
 
-	mkdir -p $tmpdir/bootisos/
 	cp bootisos/* $tmpdir/bootisos/
 
 	echo "configfile /scripts/grub.head.cfg" > $tmpdir/boot/grub/grub.cfg

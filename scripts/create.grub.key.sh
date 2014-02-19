@@ -3,17 +3,25 @@ set -e
 
 # bash -c "$(curl -fsSL https://github.com/Thermionix/multipass-usb/raw/master/scripts/create.grub.key.sh)"
 
+#on boot2docker, need to
+#tce-load -iw parted
+#tce-load -iw syslinux
+#tce-load -iw grub2
+
+#TODO: detect if there is a multipass1 partition, and re-use it.
+
 command -v parted > /dev/null || { echo "## please install parted" ; exit 1 ; }
 command -v syslinux > /dev/null || { echo "## please install syslinux" ; exit 1 ; }
 command -v grub-install > /dev/null || { echo "## please install grub" ; exit 1 ; }
 command -v tar > /dev/null || { echo "## please install tar" ; exit 1 ; }
 command -v curl > /dev/null || { echo "## please install curl" ; exit 1 ; }
-command -v whiptail >/dev/null 2>&1 || { echo "whiptail (pkg libnewt) required for this script" >&2 ; exit 1 ; }
+#command -v whiptail >/dev/null 2>&1 || { echo "whiptail (pkg libnewt) required for this script" >&2 ; exit 1 ; }
 #command -v sgdisk >/dev/null 2>&1 || { echo "sgdisk (pkg gptfdisk) required for this script" >&2 ; exit 1 ; }
 
 #disks=`sudo parted --list | awk -F ": |, |Disk | " '/Disk \// { print $2" "$3$4 }'`
-disks=`fdisk -l 2> /dev/null | grep 'Disk /' | sed 's/Disk \(.*\): \(.*\) \(.*\), .*/\1 \2\3/'`
-DSK=$(whiptail --nocancel --menu "Select the Disk to install to" 18 45 10 $disks 3>&1 1>&2 2>&3)
+#disks=`fdisk -l 2> /dev/null | grep 'Disk /' | sed 's/Disk \(.*\): \(.*\) \(.*\), .*/\1 \2\3/'`
+#DSK=$(whiptail --nocancel --menu "Select the Disk to install to" 18 45 10 $disks 3>&1 1>&2 2>&3)
+DSK=/dev/sda
 
 drivelabel="multipass01"
 #partboot="/dev/disk/by-label/$drivelabel"

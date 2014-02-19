@@ -4,9 +4,7 @@ set -e
 # bash -c "$(curl -fsSL https://github.com/Thermionix/multipass-usb/raw/master/scripts/create.grub.key.sh)"
 
 #on boot2docker, need to
-#tce-load -iw parted
-#tce-load -iw syslinux
-#tce-load -iw grub2
+tce-load -iw parted syslinux grub2
 
 #TODO: detect if there is a multipass1 partition, and re-use it.
 
